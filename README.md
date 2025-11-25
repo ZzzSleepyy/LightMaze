@@ -8,9 +8,9 @@
 
 ###
 
-## Project title: Wala pa
+## Project title: Lightmaze
 
-A brief description of what this project does and who it's for
+LightMaze is an interactive puzzle-adventure game where players navigate through a series of mazes using light, logic, and strategy. Each level introduces unique obstacles, hidden paths, and light-based mechanics that challenge players to think critically and solve problems creatively. Created for students, gamers, and anyone who enjoys brain-teasing challenges, LightMaze blends simple controls with engaging level design—making it fun, accessible, and rewarding for all skill levels.
 
 ###
 
