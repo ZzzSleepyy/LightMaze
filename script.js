@@ -281,7 +281,7 @@ class SoundManager {
 
   loadSounds() {
     // Create button click sound
-    this.sounds.buttonClick = new Audio('assets/buttonclickSound.mp3');
+    this.sounds.buttonClick = new Audio('assets/buttonclickSound.MP3');
     this.sounds.buttonClick.preload = 'auto';
     
     // Add error handling for sound loading
