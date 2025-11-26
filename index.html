@@ -38,8 +38,9 @@
     <!-- Home -->
     <section id="play" class="section">
       <h1>Welcome to LightMaze</h1>
+      
       <p class="tagline">A physics-puzzle adventure where you bend, reflect, and explore the power of light.</p>
-
+      
       <!-- Quick Stats -->
       <div class="stats-container">
         <div class="stat">
@@ -110,6 +111,34 @@
             <span class="objective-icon">💡</span>
             <span>Problem Solving</span>
           </div>
+        </div>
+      </div>
+
+      <!-- 24-Hour Game Timer -->
+      <div class="game-timer-section">
+        <div class="timer-container">
+          <div class="timer-display">
+            <div class="time-unit">
+              <span class="time-value" id="timer-hours">24</span>
+              <span class="time-label">Hours</span>
+            </div>
+            <div class="time-separator">:</div>
+            <div class="time-unit">
+              <span class="time-value" id="timer-minutes">00</span>
+              <span class="time-label">Minutes</span>
+            </div>
+            <div class="time-separator">:</div>
+            <div class="time-unit">
+              <span class="time-value" id="timer-seconds">00</span>
+              <span class="time-label">Seconds</span>
+            </div>
+          </div>
+          <div class="timer-progress">
+            <div class="progress-bar">
+              <div class="progress-fill" id="timer-progress"></div>
+            </div>
+          </div>
+          <p class="timer-description">Game level resets automatically when timer reaches zero</p>
         </div>
       </div>
     </section>
@@ -328,12 +357,12 @@
         <span class="level-number">08</span>
         <span class="level-difficulty hard">Hard</span>
       </div>
-      <h3>Final Light Maze</h3>
+      <h3>Photon Pathway Puzzle</h3>
       <p>Combine all learned concepts in an ultimate challenge. Reflection, refraction, lenses, and interference together.</p>
       <div class="level-features">
-        <span class="feature-tag">All Concepts</span>
-        <span class="feature-tag">Final Challenge</span>
-        <span class="feature-tag">Master Level</span>
+        <span class="feature-tag">Refraction</span>
+        <span class="feature-tag">Reflection</span>
+        <span class="feature-tag">Diffraction</span>
       </div>
       <div class="level-stats">
         <div class="stat">
@@ -353,12 +382,11 @@
         <span class="level-number">09</span>
         <span class="level-difficulty hard">Hard</span>
       </div>
-      <h3>Final Light Maze</h3>
+      <h3>Spectral Shift Arena</h3>
       <p>Combine all learned concepts in an ultimate challenge. Reflection, refraction, lenses, and interference together.</p>
       <div class="level-features">
-        <span class="feature-tag">All Concepts</span>
-        <span class="feature-tag">Final Challenge</span>
-        <span class="feature-tag">Master Level</span>
+        <span class="feature-tag">Reflection</span>
+        <span class="feature-tag">Precision Challenge</span>
       </div>
       <div class="level-stats">
         <div class="stat">
@@ -483,8 +511,8 @@
               </div>
             </div>
             <div class="card-back">
-              <h3>Inside Info</h3>
-              <p>Expert in data integration and UX design, bridging technical and aesthetic balance in every project.</p>
+              <h3></h3>
+              <p></p>
             </div>
           </div>
         </div>
@@ -504,8 +532,8 @@
               </div>
             </div>
             <div class="card-back">
-              <h3>Inside Info</h3>
-              <p>Specializes in maintaining seamless server-client communication for scalable web applications.</p>
+              <h3></h3>
+              <p></p>
             </div>
           </div>
         </div>
@@ -516,7 +544,7 @@
             <div class="card-front">
               <img src="https://ui-avatars.com/api/?name=Emanuel+Morales&background=E9F0FF&color=4C85E0" class="avatar" alt="Morales avatar" />
               <h2>Morales, Emanuel Jacob C.</h2>
-              <p>Focuses on smart sensor systems and data analytics solutions.</p>
+              <p>Focuses on game development, creating interactive digital experiences, and designing engaging gameplay systems.</p>
               <div class="tag-container">
                 <span class="tag">Coordinator</span>
                 <span class="tag">Game Designer</span>
@@ -524,8 +552,8 @@
               </div>
             </div>
             <div class="card-back">
-              <h3>Inside Info</h3>
-              <p>Brings analytical insights to physical interfaces, ensuring accuracy and performance in every reading.</p>
+              <h3></h3>
+              <p></p>
             </div>
           </div>
         </div>
@@ -536,15 +564,15 @@
             <div class="card-front">
               <img src="https://ui-avatars.com/api/?name=John+Pontigon&background=E9F0FF&color=4C85E0" class="avatar" alt="Pontigon avatar" />
               <h2>Pontigon, John Russell C.</h2>
-              <p>Not only am I clueless, I'm also broke beyond compare!</p>
+              <p>A creative thinker behind LightMaze’s world and mechanics.</p>
               <div class="tag-container">
                 <span class="tag">Coordinator</span>
                 <span class="tag">Concept Designer</span>
               </div>
             </div>
             <div class="card-back">
-              <h3>Inside Info</h3>
-              <p>Designs efficient training loops and adaptive neural pathways to optimize project learning outcomes.</p>
+              <h3></h3>
+              <p></p>
             </div>
           </div>
         </div>
@@ -555,15 +583,15 @@
             <div class="card-front">
               <img src="https://ui-avatars.com/api/?name=Althea+Macatangay&background=E9F0FF&color=4C85E0" class="avatar" alt="Macatangay avatar" />
               <h2>Macatangay, Althea Rhien N.</h2>
-              <p>AI enthusiast focused on human-computer collaboration.</p>
+              <p>A dedicated researcher exploring the game fuctionality and how systems interact.</p>
               <div class="tag-container">
                 <span class="tag">Coordinator</span>
                 <span class="tag">Researcher</span>
               </div>
             </div>
             <div class="card-back">
-              <h3>Inside Info</h3>
-              <p>Specializes in training models for emotion detection and adaptive feedback loops.</p>
+              <h3></h3>
+              <p></p>
             </div>
           </div>
         </div>
@@ -574,7 +602,7 @@
             <div class="card-front">
               <img src="https://ui-avatars.com/api/?name=Francis+Panganiban&background=E9F0FF&color=4C85E0" class="avatar" alt="Panganiban avatar" />
               <h2>Panganiban, Francis Rafael T.</h2>
-              <p>Trainer and machine learning engineer with a creative edge.</p>
+              <p>A motivated developer with a growing skillset in front-end and back-end technologies</p>
               <div class="tag-container">
                 <span class="tag">Coordinator</span>
                 <span class="tag">Web Developer</span>
@@ -582,8 +610,8 @@
               </div>
             </div>
             <div class="card-back">
-              <h3>Inside Info</h3>
-              <p>Explores adaptive intelligence systems and human-centered AI design methodologies.</p>
+              <h3></h3>
+              <p></p>
             </div>
           </div>
         </div>
@@ -594,7 +622,7 @@
             <div class="card-front">
               <img src="https://ui-avatars.com/api/?name=Maricris+Martinez&background=E9F0FF&color=4C85E0" class="avatar" alt="Martinez avatar" />
               <h2>Martinez, Maricris M.</h2>
-              <p>AI trainer focused on making data modeling accessible for everyone.</p>
+              <p>Graphic designer with a focus on creating visually engaging and meaningful designs</p>
               <div class="tag-container">
                 <span class="tag">Coordinator</span>
                 <span class="tag">Researcher</span>
@@ -602,8 +630,8 @@
               </div>
             </div>
             <div class="card-back">
-              <h3>Inside Info</h3>
-              <p>Blends algorithmic teaching with empathy to simplify technical learning curves for teams.</p>
+              <h3></h3>
+              <p></p>
             </div>
           </div>
         </div>

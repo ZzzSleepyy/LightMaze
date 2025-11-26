@@ -803,6 +803,8 @@ body {
     align-items: center;
     padding: 12px 0;
     border-bottom: 1px dashed var(--border-color);
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 .setting-item:last-of-type {
@@ -811,9 +813,9 @@ body {
 
 .setting-item label:not(.switch) {
     font-weight: 500;
-    /* Allow label to take necessary space, forcing controls right */
-    flex-grow: 1; 
+    flex-grow: 1;
     margin-right: 20px;
+    min-width: 200px;
 }
 
 .horizontal-separator {
@@ -829,13 +831,11 @@ body {
     padding: 8px 10px;
     border-radius: 6px;
     border: 1px solid var(--border-color);
-    background-color: var(--language-bg); 
+    background-color: var(--language-bg);
     color: var(--main-text-color);
     cursor: pointer;
-    
-    /* NEW: Consistent alignment and width control */
-    flex-shrink: 0; /* Prevent element from shrinking */
-    width: 180px; /* Fixed width for better alignment */
+    flex-shrink: 0;
+    width: 180px;
     max-width: 180px;
     margin-right: 15px;
 }
@@ -863,7 +863,7 @@ body {
 /* --- FOOTER & BUTTONS --- */
 .settings-footer {
     padding-top: 20px;
-    margin-top: 30px; 
+    margin-top: 30px;
     border-top: 1px solid var(--border-color);
     text-align: right;
 }
@@ -875,12 +875,12 @@ body {
     cursor: pointer;
     font-weight: bold;
     transition: background-color 0.2s;
-    background-color: var(--button-bg-default); 
-    color: var(--button-text-default); 
+    background-color: var(--button-bg-default);
+    color: var(--button-text-default);
 }
 
 .save-button:hover {
-    background-color: #888888; 
+    background-color: #888888;
 }
 
 .reset-button {
@@ -889,7 +889,7 @@ body {
     border-radius: 6px;
     cursor: pointer;
     font-weight: bold;
-    background-color: #7a7777; 
+    background-color: #7a7777;
     color: white;
     transition: background-color 0.2s;
 }
@@ -902,9 +902,9 @@ body {
 .switch.small-switch {
     position: relative;
     display: inline-block;
-    width: 40px; 
-    height: 20px; 
-    flex-shrink: 0; /* Ensures switch stays on the right */
+    width: 40px;
+    height: 20px;
+    flex-shrink: 0;
 }
 .small-switch input { opacity: 0; width: 0; height: 0; }
 .small-switch .slider {
@@ -915,10 +915,76 @@ body {
     position: absolute; content: ""; height: 12px; width: 12px; left: 4px; bottom: 4px;
     background-color: white; transition: .4s; border-radius: 50%;
 }
-.small-switch input:checked + .slider { 
-    background-color: var(--accent-color); 
+.small-switch input:checked + .slider {
+    background-color: var(--accent-color);
 }
 .small-switch input:checked + .slider:before { transform: translateX(20px); }
+
+/* --- RESPONSIVE SETTINGS --- */
+@media (max-width: 768px) {
+    .setting-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+        padding: 15px 0;
+    }
+    
+    .setting-item label:not(.switch) {
+        margin-right: 0;
+        min-width: auto;
+        width: 100%;
+    }
+    
+    .setting-item select,
+    .setting-item input[type="range"] {
+        width: 100%;
+        max-width: 100%;
+        margin-right: 0;
+    }
+    
+    .setting-item .switch.small-switch {
+        align-self: flex-start;
+    }
+    
+    .setting-item span[id$="Display"] {
+        align-self: flex-end;
+        margin-top: -40px;
+        margin-bottom: 10px;
+    }
+    
+    .settings-footer {
+        text-align: center;
+    }
+    
+    .save-button {
+        width: 100%;
+        max-width: 200px;
+    }
+    
+    .settings-group {
+        padding: 0 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .setting-item {
+        padding: 12px 5px;
+    }
+    
+    .setting-item span[id$="Display"] {
+        margin-top: -35px;
+        font-size: 0.9rem;
+    }
+    
+    .settings-group h2 {
+        font-size: 1.2rem;
+        padding: 0 10px;
+    }
+    
+    .horizontal-separator {
+        margin: 20px 0;
+    }
+}
 
 /* Dark Mode Adjustments */
 body.dark-mode .setting-item select,
@@ -928,7 +994,7 @@ body.dark-mode .setting-item input[type="range"] {
 }
 
 body.dark-mode .save-button:hover {
-    background-color: #666666; 
+    background-color: #666666;
 }
 
 /* --- LEVELS SECTION --- */
@@ -1221,4 +1287,157 @@ body.dark-mode .save-button:hover {
   max-width: 60px;
   height: auto;
   display: block;
+}
+
+/* 24-Hour Game Timer Styles */
+.game-timer-section {
+  background: transparent;
+  border-radius: 0;
+  padding: 2rem;
+  margin: 3rem 0;
+  text-align: center;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  box-shadow: none;
+}
+
+.game-timer-section h3 {
+  color: var(--primary);
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+}
+
+.timer-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.timer-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 0;
+  color: var(--text-dark);
+}
+
+.time-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.time-value {
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--primary);
+}
+
+.time-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  opacity: 0.9;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-light);
+}
+
+.time-separator {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0.5rem;
+  opacity: 0.8;
+  color: var(--primary);
+}
+
+.timer-progress {
+  width: 100%;
+  max-width: 400px;
+}
+
+.timer-progress .progress-bar {
+  width: 100%;
+  height: 8px;
+  background: #E0E0E0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.timer-progress .progress-fill {
+  height: 100%;
+  background: var(--gradient);
+  border-radius: 10px;
+  transition: width 1s ease;
+  width: 100%;
+}
+
+.timer-description {
+  color: var(--text-light);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* Timer warning states */
+.timer-warning .time-value {
+  color: #FF6F61;
+}
+
+.timer-critical .time-value {
+  color: #FF6F61;
+  animation: pulse 0.5s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+.dark-mode .timer-progress .progress-bar {
+  background: #3a3d46;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .timer-display {
+    gap: 0.5rem;
+  }
+  
+  .time-value {
+    font-size: 2rem;
+  }
+  
+  .time-separator {
+    font-size: 1.5rem;
+  }
+  
+  .time-label {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .timer-display {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .time-separator {
+    display: none;
+  }
+  
+  .time-unit {
+    flex-direction: row;
+    gap: 0.5rem;
+  }
+  
+  .time-value {
+    font-size: 1.5rem;
+  }
 }

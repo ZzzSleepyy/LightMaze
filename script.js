@@ -281,7 +281,7 @@ class SoundManager {
 
   loadSounds() {
     // Create button click sound
-    this.sounds.buttonClick = new Audio('assets/buttonclickSound.MP3');
+    this.sounds.buttonClick = new Audio('assets/buttonclickSound.mp3');
     this.sounds.buttonClick.preload = 'auto';
     
     // Add error handling for sound loading
@@ -582,4 +582,140 @@ document.addEventListener('DOMContentLoaded', () => {
         subtree: true
     });
 
+});
+
+// 24-Hour Game Timer for Play Section
+class GameTimer {
+    constructor() {
+        this.totalTime = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+        this.timerInterval = null;
+        this.init();
+    }
+
+    init() {
+        this.loadTimerState();
+        this.startTimer();
+    }
+
+    loadTimerState() {
+        const savedEndTime = localStorage.getItem('gameTimerEndTime');
+        const now = Date.now();
+        
+        if (savedEndTime) {
+            this.endTime = parseInt(savedEndTime);
+            // If saved time is in the past, reset it
+            if (this.endTime <= now) {
+                this.resetTimer();
+            }
+        } else {
+            this.resetTimer();
+        }
+    }
+
+    startTimer() {
+        this.timerInterval = setInterval(() => {
+            this.updateTimer();
+        }, 1000);
+        
+        // Initial update
+        this.updateTimer();
+    }
+
+    updateTimer() {
+        const now = Date.now();
+        const timeLeft = this.endTime - now;
+        
+        if (timeLeft <= 0) {
+            this.onTimerComplete();
+            return;
+        }
+        
+        // Update display
+        this.updateDisplay(timeLeft);
+        
+        // Update progress bar
+        this.updateProgressBar(timeLeft);
+        
+        // Add warning states
+        this.updateWarningState(timeLeft);
+    }
+
+    updateDisplay(timeLeft) {
+        const hours = Math.floor(timeLeft / (1000 * 60 * 60));
+        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+        
+        document.getElementById('timer-hours').textContent = hours.toString().padStart(2, '0');
+        document.getElementById('timer-minutes').textContent = minutes.toString().padStart(2, '0');
+        document.getElementById('timer-seconds').textContent = seconds.toString().padStart(2, '0');
+    }
+
+    updateProgressBar(timeLeft) {
+        const progressPercent = (timeLeft / this.totalTime) * 100;
+        const progressFill = document.getElementById('timer-progress');
+        if (progressFill) {
+            progressFill.style.width = `${progressPercent}%`;
+        }
+    }
+
+    updateWarningState(timeLeft) {
+        const timerDisplay = document.querySelector('.timer-display');
+        const hoursLeft = timeLeft / (1000 * 60 * 60);
+        
+        // Remove previous states
+        timerDisplay.classList.remove('timer-warning', 'timer-critical');
+        
+        // Add warning states based on time left
+        if (hoursLeft <= 1) {
+            timerDisplay.classList.add('timer-critical');
+        } else if (hoursLeft <= 6) {
+            timerDisplay.classList.add('timer-warning');
+        }
+    }
+
+    onTimerComplete() {
+        // Reset the timer
+        this.resetTimer();
+        
+        // Reset game progress
+        this.resetGameProgress();
+        
+        // Show notification
+        showNotification('🎮 Daily challenge reset! All progress has been cleared.', 'info');
+        
+        // Restart timer
+        this.updateTimer();
+    }
+
+    resetTimer() {
+        this.endTime = Date.now() + this.totalTime;
+        localStorage.setItem('gameTimerEndTime', this.endTime.toString());
+    }
+
+    resetGameProgress() {
+        // Clear level progress
+        localStorage.removeItem('completedLevels');
+        
+        // Remove completed class from all level cards
+        const completedCards = document.querySelectorAll('.level-card.completed');
+        completedCards.forEach(card => {
+            card.classList.remove('completed');
+        });
+        
+        // Reset progress bar in levels section
+        const totalLevels = document.querySelectorAll('.level-card').length;
+        if (typeof updateProgress === 'function') {
+            updateProgress(0, totalLevels);
+        }
+        
+        console.log('Game progress reset by 24-hour timer');
+    }
+}
+
+// Initialize the game timer when the page loads
+document.addEventListener('DOMContentLoaded', () => {
+    // Add after other initializations
+    setTimeout(() => {
+        new GameTimer();
+    }, 1000);
 });
