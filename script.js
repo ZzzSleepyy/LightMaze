@@ -587,32 +587,35 @@ document.addEventListener('DOMContentLoaded', () => {
 // 24-Hour Game Timer for Play Section
 class GameTimer {
     constructor() {
-        this.totalTime = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+        this.totalTime = 24 * 60 * 60; // 24 hours in seconds
+        this.timeLeft = this.totalTime; // Start with 24 hours
         this.timerInterval = null;
         this.init();
     }
 
     init() {
-        this.loadTimerState();
+        console.log('Starting 24-hour countdown timer...');
+        
+        // Always start fresh - ignore any saved state
+        this.timeLeft = this.totalTime;
+        
+        // Clear localStorage to prevent conflicts
+        try {
+            localStorage.removeItem('gameTimerEndTime');
+            localStorage.removeItem('completedLevels');
+        } catch (e) {
+            console.log('LocalStorage not available, continuing without it');
+        }
+        
         this.startTimer();
     }
 
-    loadTimerState() {
-        const savedEndTime = localStorage.getItem('gameTimerEndTime');
-        const now = Date.now();
-        
-        if (savedEndTime) {
-            this.endTime = parseInt(savedEndTime);
-            // If saved time is in the past, reset it
-            if (this.endTime <= now) {
-                this.resetTimer();
-            }
-        } else {
-            this.resetTimer();
-        }
-    }
-
     startTimer() {
+        // Clear any existing interval
+        if (this.timerInterval) {
+            clearInterval(this.timerInterval);
+        }
+
         this.timerInterval = setInterval(() => {
             this.updateTimer();
         }, 1000);
@@ -622,79 +625,88 @@ class GameTimer {
     }
 
     updateTimer() {
-        const now = Date.now();
-        const timeLeft = this.endTime - now;
-        
-        if (timeLeft <= 0) {
-            this.onTimerComplete();
-            return;
-        }
+        // Decrease time by 1 second
+        this.timeLeft--;
         
         // Update display
-        this.updateDisplay(timeLeft);
+        this.updateDisplay();
         
         // Update progress bar
-        this.updateProgressBar(timeLeft);
+        this.updateProgressBar();
         
         // Add warning states
-        this.updateWarningState(timeLeft);
-    }
-
-    updateDisplay(timeLeft) {
-        const hours = Math.floor(timeLeft / (1000 * 60 * 60));
-        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+        this.updateWarningState();
         
-        document.getElementById('timer-hours').textContent = hours.toString().padStart(2, '0');
-        document.getElementById('timer-minutes').textContent = minutes.toString().padStart(2, '0');
-        document.getElementById('timer-seconds').textContent = seconds.toString().padStart(2, '0');
+        // Check if timer reached zero
+        if (this.timeLeft <= 0) {
+            this.onTimerComplete();
+        }
     }
 
-    updateProgressBar(timeLeft) {
-        const progressPercent = (timeLeft / this.totalTime) * 100;
+    updateDisplay() {
+        const hours = Math.floor(this.timeLeft / 3600);
+        const minutes = Math.floor((this.timeLeft % 3600) / 60);
+        const seconds = this.timeLeft % 60;
+        
+        // Update DOM elements
+        const hoursElement = document.getElementById('timer-hours');
+        const minutesElement = document.getElementById('timer-minutes');
+        const secondsElement = document.getElementById('timer-seconds');
+        
+        if (hoursElement) hoursElement.textContent = hours.toString().padStart(2, '0');
+        if (minutesElement) minutesElement.textContent = minutes.toString().padStart(2, '0');
+        if (secondsElement) secondsElement.textContent = seconds.toString().padStart(2, '0');
+    }
+
+    updateProgressBar() {
+        const progressPercent = (this.timeLeft / this.totalTime) * 100;
         const progressFill = document.getElementById('timer-progress');
         if (progressFill) {
             progressFill.style.width = `${progressPercent}%`;
         }
     }
 
-    updateWarningState(timeLeft) {
+    updateWarningState() {
         const timerDisplay = document.querySelector('.timer-display');
-        const hoursLeft = timeLeft / (1000 * 60 * 60);
+        const hoursLeft = this.timeLeft / 3600;
         
         // Remove previous states
-        timerDisplay.classList.remove('timer-warning', 'timer-critical');
-        
-        // Add warning states based on time left
-        if (hoursLeft <= 1) {
-            timerDisplay.classList.add('timer-critical');
-        } else if (hoursLeft <= 6) {
-            timerDisplay.classList.add('timer-warning');
+        if (timerDisplay) {
+            timerDisplay.classList.remove('timer-warning', 'timer-critical');
+            
+            // Add warning states based on time left
+            if (hoursLeft <= 1) {
+                timerDisplay.classList.add('timer-critical');
+            } else if (hoursLeft <= 6) {
+                timerDisplay.classList.add('timer-warning');
+            }
         }
     }
 
     onTimerComplete() {
-        // Reset the timer
-        this.resetTimer();
+        // Stop the timer
+        clearInterval(this.timerInterval);
         
         // Reset game progress
         this.resetGameProgress();
         
         // Show notification
-        showNotification('🎮 Daily challenge reset! All progress has been cleared.', 'info');
+        this.showNotification('🎮 Daily challenge reset! All progress has been cleared.', 'info');
         
-        // Restart timer
-        this.updateTimer();
-    }
-
-    resetTimer() {
-        this.endTime = Date.now() + this.totalTime;
-        localStorage.setItem('gameTimerEndTime', this.endTime.toString());
+        // Restart the timer
+        this.timeLeft = this.totalTime;
+        this.startTimer();
     }
 
     resetGameProgress() {
-        // Clear level progress
-        localStorage.removeItem('completedLevels');
+        console.log('Resetting game progress...');
+        
+        try {
+            // Clear level progress from localStorage
+            localStorage.removeItem('completedLevels');
+        } catch (e) {
+            console.log('Could not clear localStorage');
+        }
         
         // Remove completed class from all level cards
         const completedCards = document.querySelectorAll('.level-card.completed');
@@ -707,15 +719,57 @@ class GameTimer {
         if (typeof updateProgress === 'function') {
             updateProgress(0, totalLevels);
         }
+    }
+
+    showNotification(message, type = 'info') {
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.textContent = message;
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: ${type === 'success' ? '#4CAF50' : '#2196F3'};
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 10000;
+            font-weight: 600;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        `;
         
-        console.log('Game progress reset by 24-hour timer');
+        document.body.appendChild(notification);
+        
+        // Animate in
+        setTimeout(() => {
+            notification.style.transform = 'translateX(0)';
+        }, 100);
+        
+        // Remove after 3 seconds
+        setTimeout(() => {
+            notification.style.transform = 'translateX(400px)';
+            setTimeout(() => {
+                if (document.body.contains(notification)) {
+                    document.body.removeChild(notification);
+                }
+            }, 300);
+        }, 3000);
     }
 }
 
 // Initialize the game timer when the page loads
 document.addEventListener('DOMContentLoaded', () => {
-    // Add after other initializations
+    console.log('Page loaded - starting 24-hour countdown timer');
+    
+    // Wait a bit for all elements to be ready
     setTimeout(() => {
-        new GameTimer();
-    }, 1000);
+        try {
+            window.gameTimer = new GameTimer();
+            console.log('24-hour countdown timer started successfully');
+        } catch (error) {
+            console.error('Failed to start timer:', error);
+        }
+    }, 500);
 });
