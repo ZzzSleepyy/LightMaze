@@ -1,12 +1,3 @@
-// Flip cards
-document.querySelectorAll('.card').forEach((card, i) => {
-  card.style.animationDelay = `${i * 0.1}s`;
-  card.addEventListener('click', e => {
-    if (!e.target.classList.contains('tag')) {
-      card.classList.toggle('flipped');
-    }
-  });
-});
 
 // Search filter
 const search = document.getElementById('search');
