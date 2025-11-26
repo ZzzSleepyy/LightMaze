@@ -1293,7 +1293,7 @@ body.dark-mode .save-button:hover {
 .game-timer-section {
   background: transparent;
   border-radius: 0;
-  padding: 2rem;
+  padding: 2rem 1rem;
   margin: 3rem 0;
   text-align: center;
   max-width: 600px;
@@ -1303,17 +1303,12 @@ body.dark-mode .save-button:hover {
   box-shadow: none;
 }
 
-.game-timer-section h3 {
-  color: var(--primary);
-  margin-bottom: 1.5rem;
-  font-size: 1.5rem;
-}
-
 .timer-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
+  width: 100%;
 }
 
 .timer-display {
@@ -1323,6 +1318,8 @@ body.dark-mode .save-button:hover {
   gap: 1rem;
   padding: 0;
   color: var(--text-dark);
+  width: 100%;
+  flex-wrap: nowrap; /* Ensure items stay in one line */
 }
 
 .time-unit {
@@ -1330,6 +1327,7 @@ body.dark-mode .save-button:hover {
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
+  min-width: 100px; /* Ensure enough space for each unit */
 }
 
 .time-value {
@@ -1337,6 +1335,7 @@ body.dark-mode .save-button:hover {
   font-weight: 700;
   line-height: 1;
   color: var(--primary);
+  display: block; /* Ensure proper block display */
 }
 
 .time-label {
@@ -1346,6 +1345,7 @@ body.dark-mode .save-button:hover {
   text-transform: uppercase;
   letter-spacing: 1px;
   color: var(--text-light);
+  display: block; /* Ensure proper block display */
 }
 
 .time-separator {
@@ -1354,6 +1354,8 @@ body.dark-mode .save-button:hover {
   margin: 0 0.5rem;
   opacity: 0.8;
   color: var(--primary);
+  align-self: center;
+  line-height: 3rem; /* Align with numbers */
 }
 
 .timer-progress {
@@ -1406,6 +1408,29 @@ body.dark-mode .save-button:hover {
 /* Mobile responsiveness */
 @media (max-width: 768px) {
   .timer-display {
+    gap: 0.8rem;
+  }
+  
+  .time-value {
+    font-size: 2.5rem;
+  }
+  
+  .time-separator {
+    font-size: 1.8rem;
+    line-height: 2.5rem;
+  }
+  
+  .time-label {
+    font-size: 0.8rem;
+  }
+  
+  .time-unit {
+    min-width: 80px;
+  }
+}
+
+@media (max-width: 480px) {
+  .timer-display {
     gap: 0.5rem;
   }
   
@@ -1415,29 +1440,41 @@ body.dark-mode .save-button:hover {
   
   .time-separator {
     font-size: 1.5rem;
+    line-height: 2rem;
+    margin: 0 0.3rem;
   }
   
   .time-label {
-    font-size: 0.8rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .timer-display {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  
-  .time-separator {
-    display: none;
+    font-size: 0.75rem;
   }
   
   .time-unit {
-    flex-direction: row;
-    gap: 0.5rem;
+    min-width: 70px;
+  }
+}
+
+/* Force horizontal layout even on very small screens */
+@media (max-width: 360px) {
+  .timer-display {
+    flex-wrap: nowrap !important; /* Force single line */
+    gap: 0.3rem;
   }
   
   .time-value {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
+  }
+  
+  .time-separator {
+    font-size: 1.3rem;
+    line-height: 1.8rem;
+    margin: 0 0.2rem;
+  }
+  
+  .time-label {
+    font-size: 0.7rem;
+  }
+  
+  .time-unit {
+    min-width: 60px;
   }
 }
