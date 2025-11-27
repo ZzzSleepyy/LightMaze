@@ -95,8 +95,8 @@ body {
 	position: fixed;
 	top: 20px;
 	left: 20px;
-	z-index: 1001; /* Increased to be above instruction text */
-	background: #4C85E0; /* Removed transparency */
+	z-index: 1001;
+	background: #4C85E0;
 	color: white;
 	border: none;
 	padding: 12px 24px;
@@ -113,7 +113,6 @@ body {
 	gap: 8px;
 	min-width: 140px;
 	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-	/* Removed backdrop-filter to fix blurriness */
 }
 
 #back-button:hover {
@@ -132,7 +131,7 @@ body {
 	top: 20px;
 	left: 0;
 	right: 0;
-	z-index: 1000; /* Lower than back button */
+	z-index: 1000;
 	text-align: center;
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 	font-size: 18px;
@@ -215,7 +214,7 @@ function goBackToWebsite() {
 	}
 }
 
-const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":true,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":6898704,"index.wasm":36160334},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4};
+const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":true,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":6975016,"index.wasm":36160334},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4};
 const GODOT_THREADS_ENABLED = false;
 const engine = new Engine(GODOT_CONFIG);
 
